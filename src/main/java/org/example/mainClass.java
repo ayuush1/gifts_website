@@ -30,7 +30,7 @@ public class mainClass {
         for (WebElement anchor : anchorTags) {
             String link = anchor.getAttribute("href");
 
-            if (link != null && !link.isEmpty() && !link.startsWith("javascript:") && !link.contains("mailto")) {
+            if (link != null && !link.isEmpty() && !link.startsWith("javascript:") && !link.contains("mailto") && !link.contains("tel")) {
                 List<String> brokenURLSeparated = httpConnection.checkLink(newUrl, link);
                 brokenURL.addAll(brokenURLSeparated);
             } else {
@@ -62,7 +62,19 @@ public class mainClass {
 
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress("seleniumtry11@gmail.com"));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress("ayush.pokharel8@gmail.com"));
+
+
+            String[] recipients = {
+                    "ayush.pokharel8@gmail.com",
+                    "ayush.pokharel@deerwalk.edu.np"
+            };
+
+            Address[] recipientAddresses = new InternetAddress[recipients.length];
+            for (int i = 0; i < recipients.length; i++) {
+                recipientAddresses[i] = new InternetAddress(recipients[i]);
+            }
+
+            message.setRecipients(Message.RecipientType.TO, recipientAddresses);
             message.setSubject("Broken Links Report");
             message.setText("List of broken links:\n\n" + brokenURL.toString());
 

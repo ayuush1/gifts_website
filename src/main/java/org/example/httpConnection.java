@@ -15,6 +15,8 @@ public class httpConnection {
         List<String> BrokenURL = new ArrayList<>();
 
         URL MainURL = new URL(newUrl);
+        URL baseUrl = new URL(newUrl);
+        URL concatenatedURL = new URL(baseUrl, link);
         HttpURLConnection conn = (HttpURLConnection) MainURL.openConnection();
         conn.setRequestMethod("HEAD");
         int response = conn.getResponseCode();
@@ -29,10 +31,6 @@ public class httpConnection {
 
             try {
 
-                URL baseUrl = new URL(newUrl);
-                URL concatenatedURL = new URL(baseUrl, link);
-
-
                 HttpURLConnection connection = (HttpURLConnection) concatenatedURL.openConnection();
                 connection.setRequestMethod("HEAD");
                 int responseCode = connection.getResponseCode();
@@ -44,12 +42,15 @@ public class httpConnection {
 
                 } else {
                     System.out.println("The system is working with status code of " + responseCode);
+
+
                 }
 
             } catch (IOException e) {
                 System.out.println("The system has an error: " + e);
-            }
 
+
+            }
 
         }
         return BrokenURL;

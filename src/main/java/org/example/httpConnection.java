@@ -25,6 +25,7 @@ public class httpConnection {
 
             System.out.println("the system is broken");
             BrokenURL.add(MainURL.toString());
+            BrokenURL.add(String.valueOf(response));
 
         } else {
 
@@ -35,7 +36,7 @@ public class httpConnection {
                 connection.setRequestMethod("HEAD");
                 int responseCode = connection.getResponseCode();
 
-                if (responseCode >= 400) {
+                if (responseCode !=200) {
                     System.out.println("Broken link with response status of " + responseCode);
                     BrokenURL.add(concatenatedURL.toString());
 

@@ -41,6 +41,7 @@ public class mainClass {
 
         driver.quit();
 
+
         if (!brokenURL.isEmpty()) {
             Properties properties = System.getProperties();
             properties.put("mail.smtp.host", "smtp.gmail.com");
@@ -66,7 +67,10 @@ public class mainClass {
 
             String[] recipients = {
                     "ayush.pokharel8@gmail.com",
-                    "ayush.pokharel@deerwalk.edu.np"
+                    "mmaharjan@hamropatro.com",
+                    "sbrana@hamropatro.com",
+                    "sachinshaky@hamropatro.com",
+                    "alina.pathak26@gmail.com"
             };
 
             Address[] recipientAddresses = new InternetAddress[recipients.length];

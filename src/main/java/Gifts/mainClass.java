@@ -1,6 +1,5 @@
-package org.example;
+package Gifts;
 
-import org.example.httpConnection;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -10,6 +9,8 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -25,19 +26,34 @@ public class mainClass {
         List<String> brokenURL = new ArrayList<>();
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
-        List<WebElement> anchorTags = driver.findElements(By.xpath("//a"));
+        URL MainURL = new URL(newUrl);
+        HttpURLConnection conn = (HttpURLConnection) MainURL.openConnection();
+        conn.setRequestMethod("HEAD");
+        int response = conn.getResponseCode();
 
-        for (WebElement anchor : anchorTags) {
-            String link = anchor.getAttribute("href");
+        if (response==400 || response==404 || response>=500 ) {
 
-            if (link != null && !link.isEmpty() && !link.startsWith("javascript:") && !link.contains("mailto") && !link.contains("tel")) {
-                List<String> brokenURLSeparated = httpConnection.checkLink(newUrl, link);
-                brokenURL.addAll(brokenURLSeparated);
-            } else {
-                System.out.println("The URL is empty or has 'javascript' as a protocol");
+            System.out.println("the system is broken with response status of "+response);
+            brokenURL.add(MainURL.toString());
+            System.out.println(brokenURL);
+
+
+        } else {
+
+            List<WebElement> anchorTags = driver.findElements(By.xpath("//a"));
+
+            for (WebElement anchor : anchorTags) {
+                String link = anchor.getAttribute("href");
+
+                if (link != null && !link.isEmpty() && !link.startsWith("javascript:") && !link.contains("mailto") && !link.contains("tel")) {
+                    List<String> brokenURLSeparated = httpConnection.checkLink(newUrl, link);
+                    brokenURL.addAll(brokenURLSeparated);
+                } else {
+                    System.out.println("The URL is empty or has 'javascript' as a protocol");
+                }
             }
+            System.out.println(brokenURL);
         }
-        System.out.println(brokenURL);
 
         driver.quit();
 
@@ -71,6 +87,7 @@ public class mainClass {
                     "sbrana@hamropatro.com",
                     "sachinshakya@hamropatro.com",
                     "alina.pathak26@gmail.com"
+
             };
 
             Address[] recipientAddresses = new InternetAddress[recipients.length];
@@ -79,7 +96,7 @@ public class mainClass {
             }
 
             message.setRecipients(Message.RecipientType.TO, recipientAddresses);
-            message.setSubject("Broken Links Report");
+            message.setSubject("Broken Links Report of Gifts Website");
             message.setText("List of broken links:\n\n" + brokenURL.toString());
 
             Transport.send(message);

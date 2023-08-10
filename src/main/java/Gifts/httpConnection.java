@@ -1,4 +1,4 @@
-package org.example;
+package Gifts;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -14,21 +14,9 @@ public class httpConnection {
 
         List<String> BrokenURL = new ArrayList<>();
 
-        URL MainURL = new URL(newUrl);
+
         URL baseUrl = new URL(newUrl);
         URL concatenatedURL = new URL(baseUrl, link);
-        HttpURLConnection conn = (HttpURLConnection) MainURL.openConnection();
-        conn.setRequestMethod("HEAD");
-        int response = conn.getResponseCode();
-
-        if (response != 200) {
-
-            System.out.println("the system is broken");
-            BrokenURL.add(MainURL.toString());
-
-
-        } else {
-
 
             try {
 
@@ -36,9 +24,11 @@ public class httpConnection {
                 connection.setRequestMethod("HEAD");
                 int responseCode = connection.getResponseCode();
 
-                if (responseCode !=200) {
+                if (responseCode ==400 || responseCode==404 || responseCode>=500) {
                     System.out.println("Broken link with response status of " + responseCode);
                     BrokenURL.add(concatenatedURL.toString());
+
+                    System.out.println(responseCode);
 
 
                 } else {
@@ -53,7 +43,6 @@ public class httpConnection {
 
             }
 
-        }
         return BrokenURL;
     }
 }

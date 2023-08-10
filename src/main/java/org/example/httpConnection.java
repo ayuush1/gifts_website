@@ -25,7 +25,7 @@ public class httpConnection {
 
             System.out.println("the system is broken");
             BrokenURL.add(MainURL.toString());
-            BrokenURL.add(String.valueOf(response));
+
 
         } else {
 

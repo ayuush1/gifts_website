@@ -69,7 +69,7 @@ public class mainClass {
                     "ayush.pokharel8@gmail.com",
                     "mmaharjan@hamropatro.com",
                     "sbrana@hamropatro.com",
-                    "sachinshaky@hamropatro.com",
+                    "sachinshakya@hamropatro.com",
                     "alina.pathak26@gmail.com"
             };
 
